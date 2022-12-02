@@ -105,7 +105,7 @@ Here is a template for *index.html*:
 <html lang="en">
 <html>
     <head>
-				<meta charset="UTF-8" />
+	<meta charset="UTF-8" />
         <title>Template/title>
     </head>
     <body>
