@@ -175,15 +175,125 @@ rsync -r <directory-name> "server1@<droplet-ip>:~/" -e "ssh -i /path/to/ssh-key 
 ```
 > Run this command for both droplets
 
-### Step Five - Caddyfile
-
-Again on your local machine, you will want to write a Caddyfile, which will be your configuration file for *caddy*
-
-Succesfull output:
+Succesful output:
 
 <img width="600" alt="rsync" src="https://user-images.githubusercontent.com/100272904/205239963-a5c36d06-6428-4374-ae68-e7a3ed7c25af.png">
 
 <img width="460" alt="ssh work" src="https://user-images.githubusercontent.com/100272904/205240002-84fe1ecd-5aa3-40fe-9403-f1f7c468ef3a.png">
+
+* On both droplets create a *www* folder in your */var*: ```sudo mkdir /var/www```
+* Move your your *src* and *html* folders from the folder you just transfered to the *www* directory
+
+```
+sudo mv ~/2420-assign-two/html/index.html /var/www/
+sudo mv ~/2420-assign-two/src /var/www/
+```
+
+This is what your file structure should look like now for *var/www/*:
+
+<img width="447" alt="filestructure" src="https://user-images.githubusercontent.com/100272904/205253582-c779bb1c-2a4c-4426-84fc-ca87a93efaa5.png">
+
+
+> Note: You will want to change some of the HTML and the *{hello: 'Server 1'}* content from the *index.js* for one of the droplets so you can differentiate them
+
+### Step Five - Caddyfile
+
+Again on your local machine, you will want to write a Caddyfile, which will be your configuration file for *caddy*
+
+* Inside the directory created in *Step Four* create a file called *Caddyfile* with the following content inside:
+
+```
+http:// {
+    root * /var/www/html
+    reverse_proxy /api localhost:5050
+    file_server
+}
+```
+
+* If the file works, you should be able to see your *index.js* {hello : 'Server1} message
+* To see if it works, transfer the *Caddyfile* to both your droplets using: 
+```
+rsync -r <directory-name> "server1@<droplet-ip>:~/" -e "ssh -i /path/to/ssh-key -o StrictHostKeyChecking=no"
+```
+* Again, in both droplets, create a directory to store this file: ```sudo mkdir /etc/caddy```
+* Move the file to the directory: ```sudo mv caddy /etc/caddy/```
+
+<img width="393" alt="Caddyfilemv" src="https://user-images.githubusercontent.com/100272904/205245399-da104806-7884-49dd-bf22-2b0e00610a11.png">
+
+### Step Six - Installing Node and Npm with Volta
+> Perform these steps on both droplets
+
+As done priviously in *step four* we will need to install *Volta* in order to install *node* and *npm* on the droplets
+
+To do so follow the same commands:
+
+```
+ curl https://get.volta.sh | bash
+```
+```
+ source ~/.bashrc
+```
+```
+ volta install node
+```
+```
+ npm install fastify
+```
+
+Succesful output:
+
+<img width="600" alt="stepsix" src="https://user-images.githubusercontent.com/100272904/205246964-11fa9e28-b074-4aad-8b33-2b53069b9315.png">
+
+This will allow us to execute the *index.js* file
+
+### Step Seven - Node App Service File
+> Perform these steps on both droplets
+
+The node service file will fulfill the following requirements:
+
+ * Restart the service on failure
+ * Require a configured network
+ * Run the *index.js* app
+
+For this example, we will be creating this service file with the name *hello_web.service*
+
+* On your local machine create file called *hello_web.service* and add the following content:
+
+```
+[Unit]
+Description=run node app on localhost:5050
+After=network.target
+
+[Service]
+Type=simple
+User=server1
+Group=server1
+ExecStart=/home/server1/.volta/bin/node /var/www/src/index.js
+Restart=on-failure
+RestartSec=5
+SyslogIdentifier=hello_web
+
+[Install]
+WantedBy=multi-user.target
+```
+* As shown in previous steps, copy this file to both your droplets
+* Within your droplets move this file to the */etc/systemd/system/* directory: ```sudo mv hello_web.service /etc/systemd/system```
+
+<img width="523" alt="helloweb" src="https://user-images.githubusercontent.com/100272904/205249900-22615318-68f3-4dac-b2ce-b30cbf9b6a6c.png">
+
+To test the service, run the following commands:
+
+```
+sudo systemctl daemon-reload
+sudo systemctl enable hello_web.service
+sudo systemctl restart hello_web.service
+systemctl status hello_web.service
+```
+
+Succesfull status output:
+
+<img width="600" alt="statushello_web" src="https://user-images.githubusercontent.com/100272904/205254764-e352d8e6-a301-4789-919b-7b6867e924ba.png">
+
 
 
 ### Author
