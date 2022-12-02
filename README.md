@@ -294,8 +294,62 @@ Succesfull status output:
 
 <img width="600" alt="statushello_web" src="https://user-images.githubusercontent.com/100272904/205254764-e352d8e6-a301-4789-919b-7b6867e924ba.png">
 
+### OPTIONAL STEP - Caddy service file
 
+This step is optional but useful. 
+
+* Make a service file, call it *caddy.service*
+* Add the following content to it:
+```
+[Unit]
+Description=Serve HTML in /var/www/html using caddy
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/caddy run --config /etc/caddy/Caddyfile
+ExecReload=/usr/bin/caddy reload --config /etc/caddy/Caddyfile
+TimeoutStopSec=5
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
+```
+
+* Same as for *step seven* put this file in your droplets */etc/systemd/system/* directory
+
+To test the service, run the following commands:
+
+```
+sudo systemctl daemon-reload
+sudo systemctl enable caddy.service
+sudo systemctl restart caddy.service
+systemctl status caddy.service
+```
+
+Succesfull status output:
+
+<img width="600" alt="caddyservstatus" src="https://user-images.githubusercontent.com/100272904/205256174-35d304c6-52b4-4193-ab79-aaf1dc4df933.png">
+
+### Step Eight (Final) - Test Your Load Balancer
+
+At this point you have already uploaded your service files and *Caddyfile* to both your droplets. You should also have 2 different *index.html* files inside your droplets */var/www/html* and *index.js* files in your droplets */var/www/src*. If all your services are running you should be able to access your *Load Balancer's* IP address and see the HTML content from both droplets, you should also be able to see the node app of both droplets by visiting your *Load Balancer's* API route.
+
+*** Proof Load Balancer Working ***
+
+<img width="600" alt="worked1" src="https://user-images.githubusercontent.com/100272904/205258263-2d670e91-5bb0-4f3d-87b3-1ff3c9b6d4af.png">
+
+<img width="600" alt="worked2" src="https://user-images.githubusercontent.com/100272904/205258289-29bb77b0-1912-498c-ad06-372d1e88791b.png">
+
+<img width="600" alt="worked3" src="https://user-images.githubusercontent.com/100272904/205258321-eec9b06d-0ec6-452c-b909-943d28e976d2.png">
+
+<img width="600" alt="worked4" src="https://user-images.githubusercontent.com/100272904/205258343-10aece81-d366-40ed-a331-13e9ec88ea55.png">
+
+```
+http://164.90.246.217
+http://164.90.246.217/api
+```
 
 ### Author
 
-Tristan Davis
+Tristan Davis 
