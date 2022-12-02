@@ -351,7 +351,7 @@ Succesful status output:
 
 At this point you have already uploaded your service files and *Caddyfile* to both your droplets. You should also have 2 different *index.html* files inside your droplets */var/www/html* and *index.js* files in your droplets */var/www/src*. If all your services are running you should be able to access your *Load Balancer's* IP address and see the HTML content from both droplets, you should also be able to see the node app of both droplets by visiting your *Load Balancer's* API route.
 
-*** Proof Load Balancer Working ***
+***Proof Load Balancer Working***
 
 `http://164.90.246.217`
 
@@ -367,4 +367,4 @@ At this point you have already uploaded your service files and *Caddyfile* to bo
 
 ### Author
 
-Tristan Davis 
+Tristan Davis (A01264977)
