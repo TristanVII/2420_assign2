@@ -226,12 +226,13 @@ http:// {
 ```
 
 * If the file works, you should be able to see your *index.js* {hello : 'Server1} message
-* To see if it works, transfer the *Caddyfile* to both your droplets using: 
+* Transfer the *Caddyfile* to both your droplets using: 
 ```
 rsync -r <directory-name> "server1@<droplet-ip>:~/" -e "ssh -i /path/to/ssh-key -o StrictHostKeyChecking=no"
 ```
 * Again, in both droplets, create a directory to store this file: ```sudo mkdir /etc/caddy```
 * Move the file to the directory: ```sudo mv caddy /etc/caddy/```
+* We will test this file with the service we create for it in a later step
 
 <img width="393" alt="Caddyfilemv" src="https://user-images.githubusercontent.com/100272904/205245399-da104806-7884-49dd-bf22-2b0e00610a11.png">
 
@@ -331,7 +332,7 @@ KillMode=mixed
 WantedBy=multi-user.target
 ```
 
-* Same as for *step seven* put this file in your droplets */etc/systemd/system/* directory
+* Same as for *step seven* upload this file to your droplets */etc/systemd/system/* directory
 
 To test the service, run the following commands:
 
