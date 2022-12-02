@@ -4,6 +4,21 @@
 
 Guide to Creating Node Balancer infrastructure with Digital Ocean
 
+## Table Contents
+  * [Description](#description)
+  * [Getting Started](#getting-started)
+    + [Dependencies](#dependencies)
+    + [Step One - DO Infrastructure set up](#step-one---do-infrastructure-set-up)
+    + [Step Two - Creating Regular Users on Droplets](#step-two---creating-regular-users-on-droplets)
+    + [Step Three - Installing Caddy](#step-three---installing-caddy)
+    + [Step Four - Write Your Web App](#step-four---write-your-web-app)
+    + [Step Five - Caddyfile](#step-five---caddyfile)
+    + [Step Six - Installing Node and Npm with Volta](#step-six---installing-node-and-npm-with-volta)
+    + [Step Seven - Node App Service File](#step-seven---node-app-service-file)
+    + [OPTIONAL STEP - Caddy service file](#optional-step---caddy-service-file)
+    + [Step Eight - Test Your Load Balancer](#step-eight---test-your-load-balancer)
+  * [Author](#author)
+
 ## Description
 
 This is a step by step guide on how to create a Node Balancer that will forward http request to two different droplets. These droplets will respond with a static *index.html* file or a node app running locally. This node application will be running on *localhost:5050* and will respond to the */api* request
@@ -331,7 +346,7 @@ Succesfull status output:
 
 <img width="600" alt="caddyservstatus" src="https://user-images.githubusercontent.com/100272904/205256174-35d304c6-52b4-4193-ab79-aaf1dc4df933.png">
 
-### Step Eight (Final) - Test Your Load Balancer
+### Step Eight - Test Your Load Balancer
 
 At this point you have already uploaded your service files and *Caddyfile* to both your droplets. You should also have 2 different *index.html* files inside your droplets */var/www/html* and *index.js* files in your droplets */var/www/src*. If all your services are running you should be able to access your *Load Balancer's* IP address and see the HTML content from both droplets, you should also be able to see the node app of both droplets by visiting your *Load Balancer's* API route.
 
