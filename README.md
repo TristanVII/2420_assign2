@@ -352,18 +352,17 @@ At this point you have already uploaded your service files and *Caddyfile* to bo
 
 *** Proof Load Balancer Working ***
 
+`http://164.90.246.217`
+
 <img width="600" alt="worked1" src="https://user-images.githubusercontent.com/100272904/205258263-2d670e91-5bb0-4f3d-87b3-1ff3c9b6d4af.png">
 
 <img width="600" alt="worked2" src="https://user-images.githubusercontent.com/100272904/205258289-29bb77b0-1912-498c-ad06-372d1e88791b.png">
 
+`http://164.90.246.217/api`
+
 <img width="600" alt="worked3" src="https://user-images.githubusercontent.com/100272904/205258321-eec9b06d-0ec6-452c-b909-943d28e976d2.png">
 
 <img width="600" alt="worked4" src="https://user-images.githubusercontent.com/100272904/205258343-10aece81-d366-40ed-a331-13e9ec88ea55.png">
-
-```
-http://164.90.246.217
-http://164.90.246.217/api
-```
 
 ### Author
 
