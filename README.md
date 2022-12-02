@@ -305,7 +305,7 @@ sudo systemctl restart hello_web.service
 systemctl status hello_web.service
 ```
 
-Succesfull status output:
+Succesful status output:
 
 <img width="600" alt="statushello_web" src="https://user-images.githubusercontent.com/100272904/205254764-e352d8e6-a301-4789-919b-7b6867e924ba.png">
 
@@ -342,7 +342,7 @@ sudo systemctl restart caddy.service
 systemctl status caddy.service
 ```
 
-Succesfull status output:
+Succesful status output:
 
 <img width="600" alt="caddyservstatus" src="https://user-images.githubusercontent.com/100272904/205256174-35d304c6-52b4-4193-ab79-aaf1dc4df933.png">
 
