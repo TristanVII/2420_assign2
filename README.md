@@ -200,8 +200,8 @@ Succesful output:
 * Move your your *src* and *html* folders from the folder you just transfered to the *www* directory
 
 ```
-sudo mv ~/2420-assign-two/html/index.html /var/www/
-sudo mv ~/2420-assign-two/src /var/www/
+sudo mv ~/2420/html /var/www/
+sudo mv ~/2420/src /var/www/
 ```
 
 This is what your file structure should look like now for *var/www/*:
