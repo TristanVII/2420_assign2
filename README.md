@@ -4,6 +4,21 @@
 
 Guide to Creating Node Balancer infrastructure with Digital Ocean
 
+## Table Contents
+  * [Description](#description)
+  * [Getting Started](#getting-started)
+    + [Dependencies](#dependencies)
+    + [Step One - DO Infrastructure set up](#step-one---do-infrastructure-set-up)
+    + [Step Two - Creating Regular Users on Droplets](#step-two---creating-regular-users-on-droplets)
+    + [Step Three - Installing Caddy](#step-three---installing-caddy)
+    + [Step Four - Write Your Web App](#step-four---write-your-web-app)
+    + [Step Five - Caddyfile](#step-five---caddyfile)
+    + [Step Six - Installing Node and Npm with Volta](#step-six---installing-node-and-npm-with-volta)
+    + [Step Seven - Node App Service File](#step-seven---node-app-service-file)
+    + [OPTIONAL STEP - Caddy service file](#optional-step---caddy-service-file)
+    + [Step Eight - Test Your Load Balancer](#step-eight---test-your-load-balancer)
+  * [Author](#author)
+
 ## Description
 
 This is a step by step guide on how to create a Node Balancer that will forward http request to two different droplets. These droplets will respond with a static *index.html* file or a node app running locally. This node application will be running on *localhost:5050* and will respond to the */api* request
@@ -90,7 +105,7 @@ Here is a template for *index.html*:
 <html lang="en">
 <html>
     <head>
-				<meta charset="UTF-8" />
+	<meta charset="UTF-8" />
         <title>Template/title>
     </head>
     <body>
@@ -185,8 +200,8 @@ Succesful output:
 * Move your your *src* and *html* folders from the folder you just transfered to the *www* directory
 
 ```
-sudo mv ~/2420-assign-two/html/index.html /var/www/
-sudo mv ~/2420-assign-two/src /var/www/
+sudo mv ~/2420/html /var/www/
+sudo mv ~/2420/src /var/www/
 ```
 
 This is what your file structure should look like now for *var/www/*:
@@ -211,12 +226,13 @@ http:// {
 ```
 
 * If the file works, you should be able to see your *index.js* {hello : 'Server1} message
-* To see if it works, transfer the *Caddyfile* to both your droplets using: 
+* Transfer the *Caddyfile* to both your droplets using: 
 ```
 rsync -r <directory-name> "server1@<droplet-ip>:~/" -e "ssh -i /path/to/ssh-key -o StrictHostKeyChecking=no"
 ```
 * Again, in both droplets, create a directory to store this file: ```sudo mkdir /etc/caddy```
 * Move the file to the directory: ```sudo mv caddy /etc/caddy/```
+* We will test this file with the service we create for it in a later step
 
 <img width="393" alt="Caddyfilemv" src="https://user-images.githubusercontent.com/100272904/205245399-da104806-7884-49dd-bf22-2b0e00610a11.png">
 
@@ -290,7 +306,7 @@ sudo systemctl restart hello_web.service
 systemctl status hello_web.service
 ```
 
-Succesfull status output:
+Succesful status output:
 
 <img width="600" alt="statushello_web" src="https://user-images.githubusercontent.com/100272904/205254764-e352d8e6-a301-4789-919b-7b6867e924ba.png">
 
@@ -316,7 +332,7 @@ KillMode=mixed
 WantedBy=multi-user.target
 ```
 
-* Same as for *step seven* put this file in your droplets */etc/systemd/system/* directory
+* Same as for *step seven* upload this file to your droplets */etc/systemd/system/* directory
 
 To test the service, run the following commands:
 
@@ -327,29 +343,28 @@ sudo systemctl restart caddy.service
 systemctl status caddy.service
 ```
 
-Succesfull status output:
+Succesful status output:
 
 <img width="600" alt="caddyservstatus" src="https://user-images.githubusercontent.com/100272904/205256174-35d304c6-52b4-4193-ab79-aaf1dc4df933.png">
 
-### Step Eight (Final) - Test Your Load Balancer
+### Step Eight - Test Your Load Balancer
 
 At this point you have already uploaded your service files and *Caddyfile* to both your droplets. You should also have 2 different *index.html* files inside your droplets */var/www/html* and *index.js* files in your droplets */var/www/src*. If all your services are running you should be able to access your *Load Balancer's* IP address and see the HTML content from both droplets, you should also be able to see the node app of both droplets by visiting your *Load Balancer's* API route.
 
-*** Proof Load Balancer Working ***
+***Proof Load Balancer Working***
+
+`http://164.90.246.217`
 
 <img width="600" alt="worked1" src="https://user-images.githubusercontent.com/100272904/205258263-2d670e91-5bb0-4f3d-87b3-1ff3c9b6d4af.png">
 
 <img width="600" alt="worked2" src="https://user-images.githubusercontent.com/100272904/205258289-29bb77b0-1912-498c-ad06-372d1e88791b.png">
 
+`http://164.90.246.217/api`
+
 <img width="600" alt="worked3" src="https://user-images.githubusercontent.com/100272904/205258321-eec9b06d-0ec6-452c-b909-943d28e976d2.png">
 
 <img width="600" alt="worked4" src="https://user-images.githubusercontent.com/100272904/205258343-10aece81-d366-40ed-a331-13e9ec88ea55.png">
 
-```
-http://164.90.246.217
-http://164.90.246.217/api
-```
-
 ### Author
 
-Tristan Davis 
+Tristan Davis (A01264977)
