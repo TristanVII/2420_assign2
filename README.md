@@ -75,6 +75,10 @@ You can now switch to this user with ```su <username>```
 To add the public ssh key from your root user to your new user do the following steps:
  * Inside your new users home directory ```mkdir .ssh```
  * Switch to your root user and copy the *authorized_keys* file to the new users .ssh with ```cp ~/.ssh/authorized_keys /home/<username>/.ssh/```
+ 
+ Your new user should now have in *authorized_keys* file in his *.ssh*
+ 
+ <img width="241" alt="Screenshot 2022-12-02 at 7 17 43 PM" src="https://user-images.githubusercontent.com/100272904/205420287-02949081-d7e3-4d03-8a83-58dc9a393f3e.png">
 
 ### Step Three - Installing Caddy
 
